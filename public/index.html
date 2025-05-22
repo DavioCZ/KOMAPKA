@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>KOMAPKA s Akcemi</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
+    <!-- Leaflet.markercluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+    <!-- Font Awesome pro ikony -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Vlastní CSS pro vyhledávání -->
+    <link rel="stylesheet" href="/src/css/search.css" />
+    <!-- Přidáme odkaz na hlavní CSS (pokud ještě není) -->
+    <link rel="stylesheet" href="/src/css/styles.css" />
+    <!-- CSS pro vlastní markery -->
+    <link rel="stylesheet" href="/src/css/markers.css" />
+
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #map-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #map {
+            flex-grow: 1;
+            height: 100%;
+            width: 100%;
+            z-index: 1; /* Sníženo, aby bylo vyhledávání a filtry nad mapou */
+            position: relative;
+        }
+
+        #info-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100%;
+            background-color: #f8f8f8;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            z-index: 1000; /* Zůstává vysoko pro panel */
+            box-shadow: -2px 0 15px rgba(0,0,0,0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            border-left: 1px solid #ddd;
+        }
+
+        #info-panel.open {
+            transform: translateX(0);
+        }
+
+        #map-overlay-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 999; /* Pod info panelem, nad mapou pokud je panel otevřen */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+
+        #map-overlay-bg.visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease, visibility 0s linear 0s;
+        }
+
+        @media (max-width: 768px) {
+            #info-panel {
+                width: 80%;
+            }
+            #map-overlay-bg.visible {
+                display: block;
+            }
+        }
+        @media (min-width: 769px) {
+            #map-overlay-bg {
+                display: none;
+            }
+        }
+
+        #info-panel h2 { margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        #info-panel p { margin-bottom: 10px; line-height: 1.6; color: #555; }
+        #info-panel strong { color: #333; }
+        #info-panel a { color: #007bff; text-decoration: none; }
+        #info-panel a:hover { text-decoration: underline; }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            border: none;
+            font-size: 20px;
+            line-height: 1;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1001; /* Nad obsahem panelu */
+        }
+        .close-button:hover { background-color: #e0e0e0; color: #333; }
+
+        #loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            font-size: 18px;
+            display: none;
+        }
+
+        /* Kontejner pro vyhledávací pole a filtry kategorií */
+        #search-controls-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%; /* Zvětšeno pro lepší zobrazení na mobilu */
+            max-width: 700px; /* Mírně zvětšeno */
+            z-index: 900; /* Nad mapou, pod panelem */
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Mezera mezi search barem a filtry */
+        }
+
+        #search-bar-container {
+            width: 100%; /* Zabere celou šířku #search-controls-container */
+        }
+
+        /* Kontejner pro filtry kategorií bude přidán do search.css */
+
+    </style>
+</head>
+<body>
+    <div id="map-container">
+        <!-- Nový obalující kontejner pro vyhledávání a filtry -->
+        <div id="search-controls-container">
+            <div id="search-bar-container">
+                <!-- Vyhledávací pole bude vytvořeno JS sem -->
+            </div>
+            <div id="category-filter-bar-container">
+                <!-- Tlačítka kategorií budou vytvořena JS sem -->
+            </div>
+        </div>
+
+        <div id="map"></div>
+        <div id="map-overlay-bg"></div>
+        <div id="info-panel" class="info-panel-component">
+            <button id="toggle-info-panel-btn" class="panel-toggle-btn internal-toggle-btn" title="Minimalizovat panel">
+                <i class="fas fa-chevron-left"></i> <!-- Šipka ukazuje doleva, když je panel otevřený -->
+            </button>
+            <!-- Hlavička panelu s explicitním křížkem pro zavření -->
+            <div class="info-panel-header">
+                <h4>Výsledky / Detail</h4>
+                <button id="close-info-panel-explicitly-btn" class="panel-close-explicit-button" title="Zavřít panel">×</button>
+            </div>
+            <div id="info-content">
+                <p>Klikněte na značku na mapě pro zobrazení detailů akce.</p>
+            </div>
+        </div>
+    </div>
+    <div id="loading-indicator">Načítám data akcí...</div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+    <script type="module">
+        import { initSearch, searchByGeolocation, hidePanelCompletely } from '/src/js/search.js';
+        // Import searchAPI pro globální dostupnost, pokud je to stále potřeba
+        // import { searchAPI } from '/src/services/search/searchAPI.js';
+
+
+        // Globální funkce pro inicializaci vyhledávání
+        window.initSearchSystem = function(map) {
+            initSearch(map);
+        };
+
+        // Globální funkce pro vyhledávání podle geolokace
+        window.searchByLocation = searchByGeolocation;
+
+        // Vytvoříme globální objekt pro aplikaci
+        window.komapkaApp = window.komapkaApp || {};
+
+        // Přidáme funkci pro skrytí panelu do globálního objektu
+        window.komapkaApp.hidePanelCompletely = hidePanelCompletely;
+
+        // Pokud chcete searchAPI dostupné globálně (jak bylo v původním search.js)
+        // window.komapkaApp.searchAPI = searchAPI; // searchAPI se nyní importuje v search.js
+    </script>
+
+    <script>
+        // ... (zbytek vašeho stávajícího inline <script> zůstává stejný) ...
+        // POZNÁMKA: Funkce loadEventData() a populateMap() jsou nyní duplicitní
+        // s tím, co by měl dělat searchService.js. Po plné integraci
+        // searchService by se tato logika měla přesunout tam a z index.html odstranit.
+        // Prozatím je ponechávám, aby fungovalo alespoň základní zobrazení mapy.
+
+        const infoPanel = document.getElementById('info-panel');
+        const infoContent = document.getElementById('info-content');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        let map;
+        let markersClusterGroup; // Pro shlukování značek
+
+        function handlePanelTransitionEnd(e) {
+            if (e.propertyName !== 'transform') return;
+            if (map) {
+                map.invalidateSize(true);
+            }
+            infoPanel.removeEventListener('transitionend', handlePanelTransitionEnd);
+        }
+
+        function forceMapRedraw() {
+            if (map) {
+                map.invalidateSize(true);
+                setTimeout(function() {
+                    map.invalidateSize(true);
+                }, 100);
+            }
+        }
+
+        async function loadEventData() {
+            // TATO FUNKCE BY MĚLA BÝT NAHRAZENA searchService.initialize()
+            // Prozatím ponecháno pro základní funkčnost
+            loadingIndicator.style.display = 'block';
+            try {
+                const response = await fetch('/data/aktivity_komapka.json');
+                if (!response.ok) {
+                    const altResponse = await fetch('../data/aktivity_komapka.json');
+                    if (!altResponse.ok) throw new Error(`Chyba při načítání aktivity_komapka.json: ${altResponse.statusText}`);
+                    return await altResponse.json();
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Nepodařilo se načíst data akcí (z index.html):", error);
+                infoContent.innerHTML = `<p style="color: red;">Chyba při načítání dat akcí.</p>`;
+                return [];
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function populateMap(akceData) {
+            // TATO FUNKCE JE ČÁSTEČNĚ PŘEKRYTA search.js
+            // Prozatím ponecháno pro základní funkčnost
+            if (!map || !akceData) return;
+            if (markersClusterGroup) {
+                markersClusterGroup.clearLayers();
+            } else {
+                markersClusterGroup = L.markerClusterGroup();
+            }
+            akceData.forEach(function(akce) {
+                if (akce && typeof akce.latitude === 'number' && typeof akce.longitude === 'number') {
+                    const marker = L.marker([akce.latitude, akce.longitude]);
+                    marker.customData = akce;
+                    marker.bindPopup(`<b>${akce.nazev}</b><br>${akce.adresa}`);
+
+                    // Příznak, zda byl marker aktivován kliknutím
+                    marker.isActivated = false;
+
+                    // Přidáme událost mouseover pro zobrazení popup při najetí myší
+                    marker.on('mouseover', function() {
+                        // Otevřeme popup pouze pokud není marker aktivován
+                        if (!this.isActivated) {
+                            this.openPopup();
+                        }
+                    });
+
+                    // Přidáme událost mouseout pro skrytí popup při odjetí myší
+                    marker.on('mouseout', function() {
+                        // Zavřeme popup pouze pokud není marker aktivován
+                        if (!this.isActivated) {
+                            this.closePopup();
+                        }
+                    });
+
+                    marker.on('click', function() {
+                        // Nastavíme příznak aktivace
+                        this.isActivated = true;
+                        // Otevřeme popup bez probliknutí (pokud už není otevřený)
+                        if (!this._popup._isOpen) {
+                            this.openPopup();
+                        }
+                        displayInfo(this.customData);
+                    });
+                    markersClusterGroup.addLayer(marker);
+                }
+            });
+            map.addLayer(markersClusterGroup);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log("DOM plně načten a parsován.");
+            map = L.map('map').setView([49.8175, 15.4730], 7);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            if (window.initSearchSystem) {
+                window.initSearchSystem(map); // Toto inicializuje nový vyhledávací systém
+            } else {
+                console.warn("Funkce initSearchSystem není k dispozici.");
+                // Fallback na staré načítání, pokud by initSearchSystem selhal
+                const loadedAkceData = await loadEventData();
+                populateMap(loadedAkceData);
+            }
+
+            // const loadedAkceData = await loadEventData(); // Odstranit po plné integraci searchService
+            // populateMap(loadedAkceData); // Odstranit po plné integraci searchService
+
+            window.addEventListener('resize', forceMapRedraw);
+            map.on('click', function(e) {
+                if (infoPanel.classList.contains('open')) {
+                    const target = e.originalEvent.target;
+                    if (!target.closest || (!target.closest('.leaflet-marker-icon') && !target.closest('.leaflet-control'))) {
+                        closeInfoPanel();
+                    }
+                }
+            });
+            setTimeout(forceMapRedraw, 100);
+        });
+
+        window.displayInfo = function(akce) {
+            let casInfo = '';
+            if (akce.zacatek) {
+                const datumZacatek = new Date(akce.zacatek);
+                casInfo = `<p><strong>Začátek:</strong> ${formatDateTime(datumZacatek)}</p>`;
+                if (akce.konec) {
+                    const datumKonec = new Date(akce.konec);
+                    casInfo += `<p><strong>Konec:</strong> ${formatDateTime(datumKonec)}</p>`;
+                }
+            }
+            infoContent.innerHTML = `
+                <h2>${akce.nazev || "Neznámá akce"}</h2>
+                <p><strong>Místo:</strong> ${akce.adresa || 'Neuvedeno'}</p>
+                <p><strong>Kategorie:</strong> ${akce.kategorie || 'Neuvedeno'}</p>
+                ${casInfo}
+                <p><strong>Popis:</strong> ${akce.popis || 'Popis není k dispozici.'}</p>
+                ${akce.cena ? `<p><strong>Cena:</strong> ${akce.cena}</p>` : ''}
+                ${akce.web ? `<p><strong>Web:</strong> <a href="${akce.web}" target="_blank" rel="noopener noreferrer">${akce.web}</a></p>` : ''}
+                ${akce.zdroj ? `<p><strong>Zdroj:</strong> ${akce.zdroj}</p>` : ''}
+            `;
+            if (!infoPanel.classList.contains('open')) {
+                infoPanel.addEventListener('transitionend', handlePanelTransitionEnd);
+                document.getElementById('map-overlay-bg').classList.add('visible');
+                infoPanel.classList.add('open');
+                setTimeout(forceMapRedraw, 350);
+            }
+        }
+
+        function formatDateTime(date) {
+            if (!(date instanceof Date) || isNaN(date)) return 'Neplatné datum';
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return date.toLocaleDateString('cs-CZ', options).replace(',', '');
+        }
+
+        function closeInfoPanel() {
+            // Pokud je k dispozici funkce hidePanelCompletely z search.js, použijeme ji
+            if (window.komapkaApp && window.komapkaApp.hidePanelCompletely) {
+                window.komapkaApp.hidePanelCompletely();
+                return;
+            }
+
+            // Fallback na původní implementaci
+            if (infoPanel.classList.contains('open')) {
+                infoPanel.addEventListener('transitionend', handlePanelTransitionEnd);
+                document.getElementById('map-overlay-bg').classList.remove('visible');
+                infoPanel.classList.remove('open');
+                infoPanel.classList.remove('minimized'); // Přidáno pro podporu minimalizovaného stavu
+
+                // Pokud existuje funkce pro zrušení zvýraznění markerů v markersClusterGroup
+                if (markersClusterGroup) {
+                    markersClusterGroup.eachLayer(function(marker) {
+                        if (marker.customData) {
+                            // Resetujeme ikonu markeru, pokud byla změněna
+                            if (marker._icon && marker._icon.classList.contains('highlighted-marker')) {
+                                marker._icon.classList.remove('highlighted-marker');
+                                marker._icon.classList.add('default-marker');
+                            }
+
+                            // Resetujeme příznak aktivace a zavřeme popup
+                            if (marker.isActivated) {
+                                marker.isActivated = false;
+                                marker.closePopup();
+                            }
+                        }
+                    });
+                }
+
+                setTimeout(forceMapRedraw, 350);
+            }
+        }
+    </script>
+</body>
+</html>

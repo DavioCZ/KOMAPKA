@@ -1,0 +1,35 @@
+{
+  "id": "misto_002",
+  "nazev": "Komunitní centrum Vltavská",
+  "popis": "Multifunkční prostor pro setkávání, kulturní akce a workshopy. Nabízí prostory pro komunitní aktivity, coworking a vzdělávací programy.",
+  "kategorie": "Komunitní centrum",
+  "adresa": "Bubenská 1, Praha 7 - Holešovice",
+  "mesto": "Praha",
+  "oteviraci_doba": {
+    "po": "10:00-22:00",
+    "ut": "10:00-22:00",
+    "st": "10:00-22:00",
+    "ct": "10:00-22:00",
+    "pa": "10:00-24:00",
+    "so": "12:00-24:00",
+    "ne": "12:00-20:00"
+  },
+  "kontakt": {
+    "telefon": "+420 234 567 890",
+    "email": "info@kcvltavska.cz"
+  },
+  "web": "https://www.kcvltavska.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/kcvltavska",
+    "instagram": "https://www.instagram.com/kcvltavska",
+    "twitter": "https://twitter.com/kcvltavska"
+  },
+  "tagy": ["komunitní centrum", "kultura", "workshopy", "coworking", "přednášky", "koncerty", "výstavy", "Vltavská"],
+  "latitude": 50.099720,
+  "longitude": 14.439690,
+  "hodnoceni": 4.6,
+  "pocet_recenzi": 89,
+  "ceny": "nízké",
+  "obrazek": "kcvltavska.jpg",
+  "datum_pridani": "2025-02-10"
+}

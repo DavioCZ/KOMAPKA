@@ -1,0 +1,37 @@
+{
+  "id": "komunita_001",
+  "nazev": "Milovníci přírody Praha",
+  "popis": "Komunita lidí, kteří se zajímají o přírodu, ochranu životního prostředí a organizují společné výlety do přírody v okolí Prahy. Pravidelně pořádáme výlety, přednášky a dobrovolnické akce zaměřené na ochranu přírody.",
+  "kategorie": "Příroda a ekologie",
+  "tagy": ["příroda", "výlety", "ekologie", "ochrana životního prostředí", "dobrovolnictví", "Praha", "turistika"],
+  "pocet_clenu": 245,
+  "lokalita": {
+    "mesto": "Praha",
+    "region": "Středočeský kraj"
+  },
+  "zalozeno": "2023-05-15",
+  "kontakt": {
+    "email": "info@milovniciprirodyprahy.cz",
+    "telefon": "+420 123 456 789"
+  },
+  "web": "https://www.milovniciprirodyprahy.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/groups/milovniciprirodyprahy",
+    "instagram": "https://www.instagram.com/milovniciprirodyprahy"
+  },
+  "pravidelne_akce": [
+    {
+      "nazev": "Sobotní výlet",
+      "popis": "Pravidelný sobotní výlet do přírody v okolí Prahy",
+      "frekvence": "každou sobotu",
+      "cas": "9:00"
+    },
+    {
+      "nazev": "Přednáška o ochraně přírody",
+      "popis": "Pravidelná přednáška o aktuálních tématech ochrany přírody",
+      "frekvence": "první středa v měsíci",
+      "cas": "18:00"
+    }
+  ],
+  "obrazek": "milovnici_prirody.jpg"
+}

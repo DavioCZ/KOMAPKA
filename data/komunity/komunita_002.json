@@ -1,0 +1,37 @@
+{
+  "id": "komunita_002",
+  "nazev": "Brněnští motorkáři",
+  "popis": "Komunita motorkářů z Brna a okolí. Organizujeme společné vyjížďky, setkání a akce pro milovníky jedné stopy. Vítáni jsou jezdci na všech typech motorek.",
+  "kategorie": "Motorismus",
+  "tagy": ["motorky", "motorkáři", "vyjížďky", "Brno", "setkání", "jedná stopa", "moto", "cestování"],
+  "pocet_clenu": 178,
+  "lokalita": {
+    "mesto": "Brno",
+    "region": "Jihomoravský kraj"
+  },
+  "zalozeno": "2022-03-10",
+  "kontakt": {
+    "email": "info@brnenstimotorkari.cz",
+    "telefon": "+420 234 567 890"
+  },
+  "web": "https://www.brnenstimotorkari.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/groups/brnenstimotorkari",
+    "instagram": "https://www.instagram.com/brnenstimotorkari"
+  },
+  "pravidelne_akce": [
+    {
+      "nazev": "Čtvrteční vyjížďka",
+      "popis": "Pravidelná večerní vyjížďka do okolí Brna",
+      "frekvence": "každý čtvrtek",
+      "cas": "18:00"
+    },
+    {
+      "nazev": "Víkendová vyjížďka",
+      "popis": "Celodenní vyjížďka na zajímavá místa v okolí",
+      "frekvence": "poslední sobota v měsíci",
+      "cas": "9:00"
+    }
+  ],
+  "obrazek": "brnensti_motorkari.jpg"
+}

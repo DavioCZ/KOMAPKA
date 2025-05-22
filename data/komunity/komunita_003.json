@@ -1,0 +1,44 @@
+{
+  "id": "komunita_003",
+  "nazev": "Pražští běžci",
+  "popis": "Běžecká komunita v Praze pro všechny úrovně běžců. Organizujeme společné tréninky, závody a běžecké výzvy. Pomáháme začátečníkům i pokročilým zlepšovat jejich běžecké dovednosti.",
+  "kategorie": "Sport",
+  "tagy": ["běh", "běhání", "sport", "fitness", "Praha", "maraton", "půlmaraton", "trénink"],
+  "pocet_clenu": 312,
+  "lokalita": {
+    "mesto": "Praha",
+    "region": "Hlavní město Praha"
+  },
+  "zalozeno": "2021-09-01",
+  "kontakt": {
+    "email": "info@prazstibezci.cz",
+    "telefon": "+420 345 678 901"
+  },
+  "web": "https://www.prazstibezci.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/groups/prazstibezci",
+    "instagram": "https://www.instagram.com/prazstibezci",
+    "strava": "https://www.strava.com/clubs/prazstibezci"
+  },
+  "pravidelne_akce": [
+    {
+      "nazev": "Ranní běh",
+      "popis": "Společný ranní běh před prací",
+      "frekvence": "každé úterý a čtvrtek",
+      "cas": "6:30"
+    },
+    {
+      "nazev": "Víkendový dlouhý běh",
+      "popis": "Společný dlouhý běh o víkendu",
+      "frekvence": "každou neděli",
+      "cas": "9:00"
+    },
+    {
+      "nazev": "Intervalový trénink",
+      "popis": "Intenzivní intervalový trénink na atletickém oválu",
+      "frekvence": "každou středu",
+      "cas": "18:00"
+    }
+  ],
+  "obrazek": "prazsti_bezci.jpg"
+}

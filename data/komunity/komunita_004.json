@@ -1,0 +1,37 @@
+{
+  "id": "komunita_004",
+  "nazev": "Vodáci",
+  "popis": "Komunita vodáků a milovníků vodních sportů. Organizujeme společné sjezdy řek, výlety na vodu a vodácké akce po celé České republice. Vhodné pro začátečníky i zkušené vodáky.",
+  "kategorie": "Vodní sporty",
+  "tagy": ["vodáctví", "kánoe", "kajak", "raft", "Vltava", "řeky", "vodní sporty", "příroda"],
+  "pocet_clenu": 198,
+  "lokalita": {
+    "mesto": "Celá ČR",
+    "region": "Česká republika"
+  },
+  "zalozeno": "2020-06-15",
+  "kontakt": {
+    "email": "info@vodaci.cz",
+    "telefon": "+420 456 789 012"
+  },
+  "web": "https://www.vodaci.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/groups/vodaci",
+    "instagram": "https://www.instagram.com/vodaci"
+  },
+  "pravidelne_akce": [
+    {
+      "nazev": "Víkendový sjezd řeky",
+      "popis": "Víkendový sjezd vybrané české řeky",
+      "frekvence": "druhý víkend v měsíci",
+      "cas": "celý víkend"
+    },
+    {
+      "nazev": "Letní vodácký tábor",
+      "popis": "Týdenní vodácký tábor na Vltavě",
+      "frekvence": "jednou ročně v červenci",
+      "cas": "celý týden"
+    }
+  ],
+  "obrazek": "vodaci.jpg"
+}

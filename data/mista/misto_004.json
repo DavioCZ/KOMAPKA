@@ -1,0 +1,35 @@
+{
+  "id": "misto_004",
+  "nazev": "Coworking Brno",
+  "popis": "Moderní coworkingové centrum v centru Brna. Nabízí flexibilní pracovní místa, zasedací místnosti, vysokorychlostní internet a příjemnou komunitu freelancerů a startupů.",
+  "kategorie": "Coworking",
+  "adresa": "Veveří 22, Brno",
+  "mesto": "Brno",
+  "oteviraci_doba": {
+    "po": "7:00-22:00",
+    "ut": "7:00-22:00",
+    "st": "7:00-22:00",
+    "ct": "7:00-22:00",
+    "pa": "7:00-22:00",
+    "so": "9:00-18:00",
+    "ne": "9:00-18:00"
+  },
+  "kontakt": {
+    "telefon": "+420 456 789 012",
+    "email": "info@coworkingbrno.cz"
+  },
+  "web": "https://www.coworkingbrno.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/coworkingbrno",
+    "instagram": "https://www.instagram.com/coworkingbrno",
+    "linkedin": "https://www.linkedin.com/company/coworkingbrno"
+  },
+  "tagy": ["coworking", "práce", "Brno", "startup", "freelance", "zasedací místnosti", "networking", "komunita"],
+  "latitude": 49.204440,
+  "longitude": 16.606840,
+  "hodnoceni": 4.7,
+  "pocet_recenzi": 124,
+  "ceny": "střední",
+  "obrazek": "coworkingbrno.jpg",
+  "datum_pridani": "2025-03-05"
+}

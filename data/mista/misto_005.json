@@ -1,0 +1,34 @@
+{
+  "id": "misto_005",
+  "nazev": "Komunitní zahrada Metrofarm",
+  "popis": "Městská komunitní zahrada, kde si můžete pronajmout záhonek a pěstovat vlastní zeleninu a bylinky. Pravidelně se zde konají workshopy o udržitelném zahradničení a komunitní akce.",
+  "kategorie": "Komunitní zahrada",
+  "adresa": "Dělnická 43, Praha 7 - Holešovice",
+  "mesto": "Praha",
+  "oteviraci_doba": {
+    "po": "8:00-20:00",
+    "ut": "8:00-20:00",
+    "st": "8:00-20:00",
+    "ct": "8:00-20:00",
+    "pa": "8:00-20:00",
+    "so": "8:00-20:00",
+    "ne": "8:00-20:00"
+  },
+  "kontakt": {
+    "telefon": "+420 567 890 123",
+    "email": "info@metrofarm.cz"
+  },
+  "web": "https://www.metrofarm.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/metrofarm",
+    "instagram": "https://www.instagram.com/metrofarm"
+  },
+  "tagy": ["zahrada", "pěstování", "komunita", "udržitelnost", "zelenina", "bylinky", "workshopy", "ekologie"],
+  "latitude": 50.103560,
+  "longitude": 14.445780,
+  "hodnoceni": 4.9,
+  "pocet_recenzi": 78,
+  "ceny": "nízké",
+  "obrazek": "metrofarm.jpg",
+  "datum_pridani": "2025-02-28"
+}

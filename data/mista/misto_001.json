@@ -1,0 +1,34 @@
+{
+  "id": "misto_001",
+  "nazev": "Kavárna Buchtám",
+  "popis": "Útulná kavárna s domácími buchtami a výběrovou kávou. Pravidelně se zde konají komunitní akce, workshopy a přednášky.",
+  "kategorie": "Kavárna",
+  "adresa": "Korunní 42, Praha 2 - Vinohrady",
+  "mesto": "Praha",
+  "oteviraci_doba": {
+    "po": "8:00-20:00",
+    "ut": "8:00-20:00",
+    "st": "8:00-20:00",
+    "ct": "8:00-20:00",
+    "pa": "8:00-22:00",
+    "so": "9:00-22:00",
+    "ne": "9:00-18:00"
+  },
+  "kontakt": {
+    "telefon": "+420 123 456 789",
+    "email": "info@buchtam.cz"
+  },
+  "web": "https://www.buchtam.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/buchtam",
+    "instagram": "https://www.instagram.com/buchtam"
+  },
+  "tagy": ["káva", "buchty", "dezerty", "snídaně", "komunitní", "wifi", "bezbariérový přístup"],
+  "latitude": 50.075840,
+  "longitude": 14.448560,
+  "hodnoceni": 4.8,
+  "pocet_recenzi": 156,
+  "ceny": "střední",
+  "obrazek": "buchtam.jpg",
+  "datum_pridani": "2025-01-15"
+}

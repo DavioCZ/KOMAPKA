@@ -1,0 +1,41 @@
+{
+  "akce": {
+    "files": [
+      "akce_001.json",
+      "akce_002.json",
+      "akce_003.json",
+      "akce_004.json",
+      "akce_005.json",
+      "akce_006.json",
+      "akce_007.json",
+      "akce_008.json",
+      "akce_009.json",
+      "akce_010.json",
+      "akce_011.json",
+      "volnocas_akce_2025.json",
+      "aktivity_komapka.json"
+    ],
+    "count": 13
+  },
+  "mista": {
+    "files": [
+      "mista/misto_001.json",
+      "mista/misto_002.json",
+      "mista/misto_003.json",
+      "mista/misto_004.json",
+      "mista/misto_005.json"
+    ],
+    "count": 5
+  },
+  "komunity": {
+    "files": [
+      "komunity/komunita_001.json",
+      "komunity/komunita_002.json",
+      "komunity/komunita_003.json",
+      "komunity/komunita_004.json",
+      "komunity/komunita_005.json"
+    ],
+    "count": 5
+  },
+  "lastUpdated": "2025-05-20"
+}

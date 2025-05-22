@@ -1,0 +1,1032 @@
+/**
+ * Styly pro vyhledávací komponenty
+ */
+
+/* Definice barev pro snadnější údržbu */
+:root {
+    --komapka-yellow-primary: #FACC15;
+    --komapka-yellow-dark: #EAB308;
+    --komapka-yellow-light-hover: #FEFCE8;
+    --komapka-text-on-yellow: #333333; /* Tmavý text pro kontrast na žluté */
+    --komapka-icon-neutral: #78716C; /* Neutrální barva pro ikony */
+    --komapka-button-height: 36px; /* Výška pro tlačítka filtru a lupy */
+}
+
+/* Kontejner pro vyhledávací pole - .search-container je třída pro obalovač od searchComponents.js */
+.search-container {
+    position: relative; /* Důležité pro pozicování našeptávače */
+    width: 100%;
+}
+
+/* Formulář vyhledávání */
+.search-form {
+    display: flex;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 25px; /* Více zaoblené */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    overflow: hidden; /* Důležité, aby tlačítka nepřesahovala border-radius */
+    height: 48px;     /* Celková výška formuláře */
+    align-items: center;
+    padding-right: 6px; /* Malý padding vpravo, aby tlačítka nebyla nalepená na okraj */
+}
+
+.search-input, .komapka-search-input { /* Také pro třídu, kterou může generovat searchComponents.js */
+    flex-grow: 1; /* Input zabere veškeré dostupné místo */
+    padding: 12px 15px 12px 20px; /* Standardní padding, levý může být větší */
+    border: none;
+    font-size: 16px;
+    outline: none;
+    background-color: transparent;
+    height: 100%; /* Aby vyplnil výšku formuláře */
+    min-width: 0; /* Pro flexbox, aby se mohl smrsknout */
+}
+
+.search-button, .komapka-search-button { /* Také pro třída, kterou může generovat searchComponents.js */
+    background-color: transparent;
+    color: var(--komapka-icon-neutral);
+    border: none;
+    padding: 0 16px; /* Upraveno pro lepší zarovnání ikony */
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Aby vyplnilo výšku formuláře */
+}
+
+.search-button:hover, .komapka-search-button:hover {
+    background-color: var(--komapka-yellow-light-hover);
+    color: var(--komapka-yellow-dark);
+}
+
+/* Našeptávač */
+.suggestions-container, .komapka-suggestions-container { /* Také pro třídu, kterou může generovat searchComponents.js */
+    position: absolute;
+    top: calc(100% + 6px); /* Mezera pod vyhledávacím polem */
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 950; /* Pod vyhledávacím polem, nad kategoriemi (pokud jsou) */
+    border: 1px solid #e0e0e0; /* Jemný okraj */
+}
+
+.suggestion-item, .komapka-suggestion-item { /* Také pro třídu, kterou může generovat searchComponents.js */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.suggestion-item:hover, .komapka-suggestion-item:hover,
+.suggestion-item.active, .komapka-suggestion-item.active { /* .active třída pro navigaci klávesnicí */
+    background-color: var(--komapka-yellow-light-hover);
+}
+
+.suggestion-text, .komapka-suggestion-text { /* Také pro třídu, kterou může generovat searchComponents.js */
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #202124;
+}
+
+.suggestion-type, .komapka-suggestion-type { /* Také pro třídu, kterou může generovat searchComponents.js */
+    color: #5f6368;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.suggestion-text strong { /* Pokud searchComponents.js zvýrazňuje shody */
+    font-weight: 600; /* Trochu výraznější */
+    color: var(--komapka-yellow-dark); /* Zvýraznění v barvě ladící se žlutou */
+}
+
+/* --- STYLY PRO KATEGORIE --- */
+/* #category-filter-bar-container je ID z HTML */
+#category-filter-bar-container {
+    width: 100%;
+    overflow: hidden; /* Skryje scrollbar kontejneru, pokud ho nechceme explicitně stylovat */
+}
+
+.category-filters-bar { /* Třída pro vnitřní div s tlačítky */
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto; /* Umožní horizontální rolování */
+    padding: 8px 2px; /* Malý padding, aby tlačítka nebyla nalepená na okrajích */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #f0f0f0;
+    /* Mezera mezi tlačítky, pokud flex-gap není podporován všude */
+    /* margin-left: -8px; */
+}
+
+/* Pro Webkit prohlížeče (Chrome, Safari, Edge) - stylování scrollbaru */
+.category-filters-bar::-webkit-scrollbar {
+    height: 6px;
+}
+.category-filters-bar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+.category-filters-bar::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 3px;
+}
+.category-filters-bar::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+}
+
+.category-filter-button {
+    background-color: #f8f9fa; /* Světlejší než Google, aby více kontrastovalo */
+    border: 1px solid #dadce0;
+    color: #3c4043;
+    padding: 8px 16px;
+    margin: 0 4px; /* Mezery mezi tlačítky */
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+    /* box-shadow: 0 1px 2px rgba(0,0,0,0.05); */ /* Jemný stín, lze vypnout */
+    flex-shrink: 0; /* Zabrání smršťování tlačítek */
+}
+
+.category-filter-button:first-child {
+    margin-left: 0;
+}
+.category-filter-button:last-child {
+    margin-right: 0;
+}
+
+.category-filter-button:hover {
+    background-color: var(--komapka-yellow-light-hover);
+    border-color: var(--komapka-yellow-primary);
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.08); */
+}
+
+.category-filter-button.active {
+    background-color: var(--komapka-yellow-primary);
+    border-color: var(--komapka-yellow-dark);
+    color: var(--komapka-text-on-yellow);
+    font-weight: 500; /* Mírně tučnější */
+    /* Removed position: relative; */
+    padding: 8px 16px; /* Keep original padding */
+    /* Removed display: flex; */
+    /* Removed align-items: center; */
+    /* Removed justify-content: space-between; */
+    /* Removed overflow: visible; */
+}
+
+.category-filter-button.active span { /* Style the text span */
+    margin-right: 5px; /* Add small space between text and icon */
+    /* Keep optional text overflow properties if needed */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
+}
+
+
+.category-filter-button.active .clear-filter-icon {
+    /* Removed position: absolute; */
+    /* Removed top, right, transform */
+    font-size: 12px; /* Smaller icon size */
+    color: var(--komapka-text-on-yellow); /* Ikona křížku ladí s textem */
+    cursor: pointer;
+    margin-left: 5px; /* Add space between text and icon */
+    vertical-align: middle; /* Align icon vertically */
+    /* Removed background-color, border-radius, width, height, display, align-items, justify-content */
+    z-index: 10; /* Keep z-index just in case */
+}
+
+.category-filter-button.active .clear-filter-icon:hover {
+    color: var(--komapka-yellow-dark); /* Při hoveru může ztmavnout */
+    /* background-color: rgba(25, 103, 210, 0.2); */
+}
+
+
+/* Výsledky vyhledávání - Ponechávám vaše původní styly, pokud nebyly v konfliktu */
+.search-results-container {
+    position: fixed; /* Může kolidovat s #info-panel, pokud je na stejném místě */
+    top: 0;
+    right: 0;
+    width: 400px; /* Pevná šířka, nebo ji udělat responzivní */
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 900; /* Mělo by být pod #info-panel (z-index: 1000) */
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    /* Pokud se tento kontejner používá pro výsledky místo #info-panel, musí se správně zobrazovat/skrývat */
+    /* transform: translateX(100%); */ /* Skrytý defaultně */
+}
+/* .search-results-container.open { transform: translateX(0); } */
+
+
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-results-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.search-results-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.search-results-tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.search-results-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-bottom-color 0.2s;
+    color: #5f6368;
+    border-bottom: 2px solid transparent;
+}
+
+.search-results-tab:hover {
+    background-color: #f8f9fa;
+}
+
+.search-results-tab.active {
+    border-bottom-color: var(--komapka-yellow-primary);
+    color: var(--komapka-yellow-dark);
+    font-weight: 500;
+}
+
+.search-results-filter { /* Tento prvek není momentálně používán v JS kódu */
+    display: flex;
+    flex-wrap: wrap;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-group {
+    margin-right: 16px;
+    margin-bottom: 8px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #666;
+}
+
+.filter-select {
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-results-content {
+    padding: 16px;
+}
+
+.search-results-content-tab {
+    display: none;
+}
+
+.search-results-content-tab.active {
+    display: block;
+}
+
+.search-results-error,
+.search-results-no-results,
+.komapka-error-message { /* Společný styl pro chybové hlášky */
+    padding: 16px;
+    text-align: center;
+    color: #5f6368;
+}
+
+.search-results-error, .komapka-error-message {
+    color: #d93025; /* Výraznější červená pro chyby */
+}
+
+/* Styl pro informaci o počtu položek mimo bounds */
+.search-results-bounds-info-container {
+    padding: 10px 16px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+
+.search-results-bounds-info {
+    margin: 0;
+    font-size: 14px;
+    color: #5f6368;
+    text-align: center;
+}
+
+/* Položka výsledku */
+.search-result-item {
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #fff; /* Čistší pozadí */
+    border: 1px solid #e0e0e0; /* Jemný okraj */
+    cursor: pointer;
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.search-result-item:hover {
+    /* transform: translateY(-2px); Lehké zvednutí */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Jemný stín při hoveru */
+    border-color: #d0d0d0;
+}
+
+.result-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.result-item-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--komapka-yellow-dark); /* Žlutá pro názvy */
+}
+
+.result-item-category {
+    font-size: 12px;
+    color: var(--komapka-text-on-yellow);
+    background-color: var(--komapka-yellow-primary); /* Žluté pozadí */
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.result-item-description {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #3c4043;
+    line-height: 1.5;
+}
+
+.result-item-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #5f6368;
+    margin-top: 10px;
+}
+
+/* Ikony pro detaily položky (příklad) */
+.result-item-location::before,
+.result-item-date::before,
+.result-item-tags::before,
+.result-item-members::before {
+    margin-right: 6px; /* Větší mezera */
+    color: #5f6368; /* Barva ikon */
+}
+.result-item-location::before { content: '📍'; }
+.result-item-date::before { content: '🕒'; }
+.result-item-tags::before { content: '🏷️'; }
+.result-item-members::before { content: '👥'; }
+
+
+/* Responzivní design */
+@media (max-width: 768px) {
+    /* .search-container je nyní řízeno #search-controls-container z index.html */
+
+    .search-results-container { /* Pokud se tento panel používá */
+        width: 100%;
+        box-shadow: none; /* Na mobilu může být stín rušivý */
+    }
+}
+
+/* Animace - ponechávám původní, pokud je potřebujete */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.suggestions-container, .komapka-suggestions-container {
+     animation: fadeIn 0.2s; /*Jemná animace může být, ale někdy je lepší bez ní pro rychlost */
+}
+
+.search-results-container {
+     animation: slideIn 0.3s;  /* Pokud používáte tento kontejner a má se zasouvat */
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+/* V search.css nebo styles.css */
+
+.search-results-title-list-custom {
+    font-size: 1.1em; /* Menší velikost pro "Výsledky:" */
+    color: #555; /* Tmavě šedá, nebo podle vašeho designu */
+    margin-bottom: 10px;
+    font-weight: normal; /* Aby nebylo tučné jako H2 */
+}
+
+.custom-item-title { /* Pro název akce */
+    font-size: 1.3em; /* Větší písmo pro název akce */
+    font-weight: bold;
+    color: var(--komapka-yellow-dark); /* Žlutá barva pro titulky */
+    margin-bottom: 5px;
+}
+
+.search-results-tabs-content-list.no-tabs-layout {
+    /* Pokud byste chtěli speciální stylování pro obsah, když nejsou zobrazeny taby */
+    /* Např. žádný padding nahoře, který by normálně byl pod taby */
+    padding-top: 0;
+}
+
+.search-result-item-list {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+.search-result-item-list:hover {
+    background-color: var(--komapka-yellow-light-hover);
+}
+.result-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.result-item-category {
+    font-size: 0.8em;
+    background-color: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #495057;
+}
+.result-item-description {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 8px;
+}
+.result-item-details span {
+    font-size: 0.85em;
+    color: #777;
+    margin-right: 10px;
+}
+
+/* Styly pro taby (pokud je používáte pro obecné vyhledávání) */
+.search-results-tabs-list {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+.search-results-tab-item {
+    padding: 8px 15px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-bottom: none;
+    margin-right: 5px;
+}
+.search-results-tab-item.active {
+    border-color: var(--komapka-yellow-dark) var(--komapka-yellow-dark) transparent var(--komapka-yellow-dark);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: var(--komapka-yellow-light-hover);
+    color: var(--komapka-text-on-yellow);
+    font-weight: bold;
+}
+.search-results-tab-content-item {
+    display: none; /* Skryté defaultně, aktivní se zobrazí JS */
+}
+.search-results-tab-content-item.active {
+    display: block;
+}
+.search-results-no-results-list,
+.search-results-no-results-overall-list {
+    padding: 15px;
+    text-align: center;
+    color: #777;
+}
+
+/* Styly pro postranní informační panel */
+.info-panel-component {
+    position: fixed;
+    top: 0; /* Nebo podle vašeho layoutu, např. pod horní lištou */
+    right: 0;
+    bottom: 10px; /* Odsazení zdola */
+    width: 350px; /* Výchozí šířka otevřeného panelu */
+    max-width: calc(100vw - 20px); /* Aby se vešel na malé obrazovky */
+    background-color: white;
+    box-shadow: -3px 0px 15px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%); /* Výchozí stav - schovaný */
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    z-index: 1000; /* Nad mapou, ale pod nejvyššími modály */
+    display: flex; /* Abychom mohli tlačítko pozicovat */
+    flex-direction: column; /* Obsah pod sebou */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.info-panel-component.open {
+    transform: translateX(0);
+    width: 350px; /* Nebo vaše preferovaná šířka */
+}
+
+/* Stav: Panel je minimalizovaný */
+.info-panel-component.minimized {
+    /* Adjust transform to show only the toggle button */
+    /* The button is 40px wide, so we want to show 40px of the panel */
+    transform: translateX(calc(100% - 40px));
+    box-shadow: -2px 0px 8px rgba(0,0,0,0.2); /* Jiný stín pro minimalizovaný stav */
+    /* Ensure overflow doesn't hide the button */
+    overflow: visible;
+}
+
+.info-panel-component.minimized #info-content,
+.info-panel-component.minimized .info-panel-header {
+    display: none; /* Skryjeme obsah a hlavičku, když je panel minimalizovaný */
+}
+
+/* Explicitní styl pro tlačítko v minimalizovaném stavu */
+.info-panel-component.minimized .internal-toggle-btn {
+    display: block !important; /* Zajistíme, že tlačítko bude vždy viditelné */
+    left: -40px; /* Potvrdíme pozici */
+    z-index: 10; /* Potvrdíme z-index */
+}
+
+/* Hlavička panelu */
+.info-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    background-color: #f8f9fa;
+}
+.info-panel-header h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Explicitní tlačítko pro zavření (křížek) */
+.panel-close-explicit-button {
+    background: none;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    color: #888;
+    padding: 0;
+}
+.panel-close-explicit-button:hover {
+    color: #333;
+}
+
+/* Tlačítko pro přepínání panelu */
+.panel-toggle-btn {
+    background-color: var(--komapka-yellow-primary); /* Výraznější žlutá pro lepší viditelnost */
+    border: 1px solid var(--komapka-yellow-dark);
+    border-right: none; /* Pokud je na levé straně panelu */
+    color: var(--komapka-text-on-yellow);
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel-toggle-btn:hover {
+    background-color: var(--komapka-yellow-dark);
+    color: white; /* Lepší kontrast při hoveru */
+}
+
+/* Specifické pro tlačítko uvnitř panelu */
+.internal-toggle-btn {
+    position: absolute;
+    left: -40px; /* Umístění vlevo od panelu (přesně šířka tlačítka) */
+    top: 50%; /* Vertikálně na střed */
+    transform: translateY(-50%);
+    width: 40px;
+    height: 60px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid #dee2e6; /* Přidáme pravý border, levý odstraníme z panelu */
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.1);
+    z-index: 10; /* Zvýšíme z-index, aby bylo tlačítko vždy nad ostatními prvky */
+}
+
+/* Ikona na toggle tlačítku - změna směru šipky */
+.info-panel-component.open .internal-toggle-btn i {
+    transform: rotate(0deg); /* Šipka ukazuje doleva (pro minimalizaci) */
+}
+.info-panel-component:not(.open):not(.minimized) .internal-toggle-btn i { /* Schovaný */
+    transform: rotate(180deg); /* Šipka ukazuje doprava (pro otevření) */
+}
+.info-panel-component.minimized .internal-toggle-btn i {
+    transform: rotate(180deg); /* Šipka ukazuje doprava (pro maximalizaci) */
+}
+
+#info-content {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1; /* Aby vyplnil zbytek výšky panelu */
+    background-color: #fff; /* Zajistí, že obsah má bílé pozadí */
+}
+
+/* Překrytí pozadí pro panel */
+#map-overlay-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 999; /* Pod info panelem, nad mapou pokud je panel otevřen */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+#map-overlay-bg.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+
+/* Responzivní chování pro překrytí pozadí */
+@media (max-width: 768px) {
+    #map-overlay-bg.visible {
+        display: block;
+    }
+}
+
+@media (min-width: 769px) {
+    #map-overlay-bg {
+        display: none;
+    }
+}
+/* search.css - Doplnění/úpravy */
+
+/* ... (vaše stávající styly pro .search-container, .search-form, .suggestions-container atd.) ... */
+
+/* Staré třídy pro ikonu lupy a wrapper byly odstraněny, protože již nejsou potřeba */
+
+/* Nové tlačítko filtru (menší, vlevo od lupy) */
+.filter-button-new {
+    background-color: transparent;
+    color: var(--komapka-icon-neutral);
+    border: none;
+    padding: 0 10px; /* Menší padding než lupa */
+    margin-left: 8px; /* Odsazení od inputu */
+    cursor: pointer;
+    font-size: 18px; /* O něco menší ikona */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--komapka-button-height); /* Použití proměnné pro výšku */
+    border-radius: 18px; /* Zaoblení tlačítka */
+    flex-shrink: 0; /* Aby se tlačítko nesmršťovalo */
+}
+
+.filter-button-new:hover {
+    background-color: var(--komapka-yellow-light-hover); /* Změněno na stejnou barvu jako hover u lupy */
+    color: var(--komapka-yellow-dark);
+}
+
+/* Aktivní stav tlačítka filtru - stejný styl jako hover */
+.filter-button-new.active {
+    background-color: var(--komapka-yellow-light-hover);
+    color: var(--komapka-yellow-dark);
+}
+
+/* Stav tlačítka filtru, když jsou aktivní filtry */
+.filter-button-new.has-active-filters {
+    background-color: var(--komapka-yellow-primary);
+    color: var(--komapka-text-on-yellow);
+}
+
+/* Stav tlačítka filtru, když jsou aktivní filtry a je zároveň aktivní */
+.filter-button-new.has-active-filters.active {
+    background-color: var(--komapka-yellow-dark);
+    color: var(--komapka-text-on-yellow);
+}
+
+/* Nové tlačítko pro odeslání (lupa, žluté) */
+.search-submit-button {
+    background-color: var(--komapka-yellow-primary);
+    color: var(--komapka-text-on-yellow);
+    border: none;
+    padding: 0 12px; /* O něco více paddingu pro větší tlačítko */
+    margin-left: 6px; /* Odsazení od tlačítka filtru */
+    cursor: pointer;
+    font-size: 20px; /* Standardní velikost ikony lupy */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--komapka-button-height); /* Výška tlačítka */
+    border-radius: 18px; /* Zaoblení tlačítka */
+    flex-shrink: 0; /* Aby se tlačítko nesmršťovalo */
+    transition: background-color 0.2s;
+}
+
+.search-submit-button:hover {
+    background-color: var(--komapka-yellow-dark);
+}
+
+/* Styly pro panel filtrů */
+.filter-panel {
+    position: absolute;
+    top: calc(100% + 10px); /* Pod vyhledávací lištou s mezerou */
+    left: 0;
+    width: 100%; /* Změněno z 350px na 100% pro zabírání celé šířky */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    z-index: 1000; /* Nad ostatními prvky */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-panel.hidden {
+    display: none;
+}
+
+.filter-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    background-color: var(--komapka-yellow-light-hover);
+    border-bottom-color: var(--komapka-yellow-primary);
+}
+
+.filter-panel-header h4 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--komapka-text-on-yellow);
+}
+
+.filter-panel-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--komapka-icon-neutral);
+    padding: 0 5px;
+}
+.filter-panel-close-btn:hover {
+    color: var(--komapka-yellow-dark);
+}
+
+.filter-panel-content {
+    padding: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px); /* Omezit výšku, aby byl vidět footer */
+}
+
+.filter-panel-content .filter-group {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.filter-panel-content .filter-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.filter-panel-content .filter-group h5 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Obecné styly pro možnosti filtrů */
+.filter-options {
+    margin-bottom: 10px;
+}
+
+/* Styly pro checkboxy */
+.filter-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    flex: 0 0 calc(50% - 8px); /* Dva sloupce */
+}
+
+.filter-checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: var(--komapka-yellow-primary);
+}
+
+.filter-checkbox-text {
+    flex: 1;
+}
+
+/* Styly pro radio buttony */
+.filter-radio-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-radio-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.filter-radio-label input[type="radio"] {
+    margin-right: 8px;
+    accent-color: var(--komapka-yellow-primary);
+}
+
+.filter-radio-text {
+    flex: 1;
+}
+
+/* Styly pro textové pole */
+.filter-text-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.filter-text-input:focus {
+    border-color: var(--komapka-yellow-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.2);
+}
+
+/* Styly pro datumové pole */
+.filter-date-range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-date-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-date-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filter-date-field label {
+    font-size: 13px;
+    color: #555;
+}
+
+.filter-date-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.filter-date-input:focus {
+    border-color: var(--komapka-yellow-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.2);
+}
+
+.filter-date-quick-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-date-quick-btn {
+    flex: 1;
+    padding: 6px 8px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-date-quick-btn:hover {
+    background-color: var(--komapka-yellow-light-hover);
+    border-color: var(--komapka-yellow-primary);
+}
+
+/* Styly pro patičku panelu */
+.filter-panel-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+}
+
+.clear-filters-btn {
+    padding: 8px 16px;
+    background-color: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.clear-filters-btn:hover {
+    background-color: #e9e9e9;
+    color: #333;
+}
+
+.apply-filters-btn {
+    padding: 8px 16px;
+    background-color: var(--komapka-yellow-primary);
+    color: var(--komapka-text-on-yellow);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.apply-filters-btn:hover {
+    background-color: var(--komapka-yellow-dark);
+}
+
+/* Třída pro skrytí rychlých filtrů, když je otevřený panel pokročilých filtrů */
+.hidden-by-advanced-filter {
+    display: none !important; /* !important pro jistotu, pokud by byly konflikty */
+}
+
+/* Responzivní design pro panel filtrů */
+@media (max-width: 768px) {
+    .filter-panel {
+        width: 100%;
+        top: calc(100% + 5px);
+        left: 0;
+        right: 0;
+        border-radius: 0;
+        max-height: 80vh;
+    }
+
+    .filter-checkbox-label {
+        flex: 0 0 100%; /* Jeden sloupec na mobilech */
+    }
+}
+/**
+ * Styly pro vyhledávací komponenty
+ */
+
+/* Definice barev pro snadnější údržbu */
+:root {
+    --komapka-yellow-primary: #FACC15;
+    --komapka-yellow-dark: #EAB308;
+    --komapka-yellow-light-hover: #FEFCE8;
+    --komapka-text-on-yellow: #333333; /* Tmavý text pro kontrast na žluté */
+    --komapka-icon-neutral: #78716C; /* Neutrální barva pro ikony */
+    --komapka-button-height: 36px; /* Výška pro tlačítka filtru a lupy */
+}

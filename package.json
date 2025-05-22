@@ -1,0 +1,22 @@
+{
+  "name": "komapka",
+  "version": "1.0.0",
+  "description": "Mapová aplikace pro zobrazení aktivit a událostí ve vašem okolí",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  },
+  "keywords": [
+    "map",
+    "activities",
+    "events",
+    "leaflet"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

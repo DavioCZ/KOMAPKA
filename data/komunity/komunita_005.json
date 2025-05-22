@@ -1,0 +1,44 @@
+{
+  "id": "komunita_005",
+  "nazev": "Ostravští hudebníci",
+  "popis": "Komunita hudebníků a hudebních nadšenců z Ostravy a okolí. Organizujeme jam sessions, koncerty a hudební workshopy. Propojujeme hudebníky různých žánrů a podporujeme lokální hudební scénu.",
+  "kategorie": "Hudba",
+  "tagy": ["hudba", "muzikanti", "kapely", "koncerty", "jam session", "Ostrava", "hudební workshopy", "lokální scéna"],
+  "pocet_clenu": 156,
+  "lokalita": {
+    "mesto": "Ostrava",
+    "region": "Moravskoslezský kraj"
+  },
+  "zalozeno": "2022-11-20",
+  "kontakt": {
+    "email": "info@ostravstihudebnici.cz",
+    "telefon": "+420 567 890 123"
+  },
+  "web": "https://www.ostravstihudebnici.cz",
+  "socialni_site": {
+    "facebook": "https://www.facebook.com/groups/ostravstihudebnici",
+    "instagram": "https://www.instagram.com/ostravstihudebnici",
+    "youtube": "https://www.youtube.com/c/ostravstihudebnici"
+  },
+  "pravidelne_akce": [
+    {
+      "nazev": "Jam session",
+      "popis": "Otevřená jam session pro všechny hudebníky",
+      "frekvence": "každou středu",
+      "cas": "19:00"
+    },
+    {
+      "nazev": "Koncert lokálních kapel",
+      "popis": "Koncert lokálních kapel a hudebníků",
+      "frekvence": "první pátek v měsíci",
+      "cas": "20:00"
+    },
+    {
+      "nazev": "Hudební workshop",
+      "popis": "Workshop zaměřený na různé hudební dovednosti",
+      "frekvence": "poslední sobota v měsíci",
+      "cas": "14:00"
+    }
+  ],
+  "obrazek": "ostravsti_hudebnici.jpg"
+}
